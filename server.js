@@ -1,4 +1,5 @@
 const dotenv = require('dotenv');
+const mongoose = require('mongoose');
 
 
 dotenv.config({ path: './config.env' });
@@ -10,6 +11,13 @@ process.on('uncaughtException', err => {
     console.log(err.name, err.message);
     process.exit(1);
   });
+
+  // CONNECTING TO THE MONGO DB:
+DB = process.env.DB_CONNECT_STRING.replace('<password>', process.env.DB_PASS);
+
+mongoose.connect(DB).then(() => {
+  console.log("Connected to the database");
+});
 
 const server = app.listen(PORT, () => {
     console.log(`Server now listening on port: ${PORT}`);

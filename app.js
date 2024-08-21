@@ -7,12 +7,23 @@ const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
 
 const app = express();
-dotenv.config({ path: './config.env' });
+const aboutMeRouter = require('./routes/aboutMeRoutes');
+const projectLinkRouter = require('./routes/projectLinkRoutes');
+const qualificationRouter = require('./routes/qualificationRoutes');
+const workExperienceRouter = require('./routes/workExperienceRoutes');
 
+dotenv.config({ path: './config.env' });
 app.use(cors());
 app.use(bodyParser.json());
 
-const transporter = nodemailer.createTransport({
+app.use('/api/homepage', aboutMeRouter);
+app.use('/api/projectLinks', projectLinkRouter);
+app.use('/api/qualifications', qualificationRouter);
+app.use('/api/workExperience', workExperienceRouter);
+
+
+
+ const transporter = nodemailer.createTransport({
     service: process.env.MAIL_SERVICE,
     auth: {
         user: process.env.MY_EMAIL,
