@@ -1,0 +1,48 @@
+# version: '3'
+# services:
+#   app:
+#     build: .
+#     ports:
+#       - "3000:3000"
+#     environment:
+#       - MONGO_URL=mongodb://mongo:27017/mydatabase
+#     depends-on:
+#     - mongo
+
+#   mongo:
+#     image: mongo:latest
+#     ports:
+#       - "27017:27017"
+#     volumes:
+#       - mongo-data:/data/db
+
+# volumes:
+#   mongo-data:
+
+version: '3'
+
+services:
+  mongo_db:
+    container_name: database_container
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongo_db:/data/db
+
+  app:
+    build: .
+    ports:
+      - 3000:3000
+    environment:
+      - PORT=3000
+      - MY_EMAIL=andy.johnson.1993@hotmail.co.uk
+      - MY_EMAIL_PASS=Eatclentrendirty1!
+      - SEND_TO_EMAIL=andy.johnson.07071993@gmail.com
+      - MAIL_SERVICE=Hotmail
+      - DB_CONNECT_STRING=mongodb+srv://andyjohnson1993:<password>@responsive-cv-cluster.onngq.mongodb.net/responsive-cv?retryWrites=true&w=majority&appName=responsive-cv-cluster
+      - DB_PASS=W5Qji3caXuYUN0WQ
+    depends_on:
+      - mongo_db
+
+volumes:
+  mongo_db: {}

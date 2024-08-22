@@ -1,5 +1,5 @@
 const express = require('express');
-const WorkExperience = require('../Models/WorkExperienceModel');
+const WorkExperience = require('../models/WorkExperienceModel');
 
 const router = express.Router();
 

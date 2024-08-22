@@ -1,5 +1,5 @@
 const express = require('express');
-const Qualification = require('../Models/QualificationModel');
+const Qualification = require('../models/QualificationModel');
 
 const router = express.Router();
 

@@ -1,5 +1,5 @@
 const express = require('express');
-const ProjectLink = require('../Models/ProjectLinkModel');
+const ProjectLink = require('../models/ProjectLinkModel');
 
 const router = express.Router();
 
