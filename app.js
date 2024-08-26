@@ -50,7 +50,7 @@ app.post('/api/contact', (req, res) => {
 });
 
 // Serving static files
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
 
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
