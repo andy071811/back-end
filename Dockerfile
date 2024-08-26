@@ -1,5 +1,8 @@
 FROM node:18-alpine
 
+# Tell node we are in production
+ENV NODE_ENV=production
+
 # Create an app directory
 WORKDIR /app
 
