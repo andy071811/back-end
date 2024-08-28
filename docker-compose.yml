@@ -1,21 +1,71 @@
-version: '3'
-
 services:
   mongo_db:
-    container_name: database_container
     image: mongo:latest
     restart: always
+    ports:
+      - 27017:27017
+    networks:
+      backend:
+        aliases:
+          - mongo
     volumes:
       - mongo_db:/data/db
+    env_file:
+      - config.env
+    profiles:
+      - dev
+      - prod
 
-  app:
-    build: .
+  prod:
+    image: react/cv:latest
+    restart: unless-stopped
     ports:
       - 3000:3000
+    networks:
+      cv-network:
+        aliases:
+          - app
+      backend:
+        aliases:
+          - app
+      # frontend:
+      #   aliases:
+      #     - app
     env_file:
       - config.env
     depends_on:
       - mongo_db
+    profiles:
+      - prod
+
+  dev:
+    image: node:18-alpine
+    restart: unless-stopped
+    working_dir: /app
+    command: ["npm", "start", "start:dev"]
+    ports:
+      - 3000:3000
+    networks:
+      cv-network:
+        aliases:
+          - app
+      backend:
+        aliases:
+          - app
+    env_file:
+      - config.env
+    depends_on:
+      - mongo_db
+    volumes:
+      - .:/app:rw
+    profiles:
+      - dev
 
 volumes:
   mongo_db: {}
+
+networks:
+  backend:
+  cv-network:
+    name: cv-network
+    external: true
