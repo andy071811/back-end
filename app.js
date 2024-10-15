@@ -13,8 +13,23 @@ const qualificationRouter = require('./routes/qualificationRoutes');
 const workExperienceRouter = require('./routes/workExperienceRoutes');
 
 dotenv.config({ path: './config.env' });
+
+const corsOptions = {
+    origin: ['https://localhost:80', 'http://localhost:80', 'https://frontend:80', 'https://andyjohnsoncv.co.uk'],
+    credentials: true
+};
+
 app.use(cors());
-app.use(bodyParser.json());
+  
+//app.use(bodyParser.json());
+
+// Serving static files
+//app.use(express.static(path.join(__dirname, 'public')));
+
+// Body parser, reading data from body into req.body
+app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+app.use(cookieParser());
 
 app.use('/api/homepage', aboutMeRouter);
 app.use('/api/projectLinks', projectLinkRouter);
@@ -48,14 +63,6 @@ app.post('/api/contact', (req, res) => {
         res.status(200).send(`Email sent: ${info.response}`);
     });
 });
-
-// Serving static files
-//app.use(express.static(path.join(__dirname, 'public')));
-
-// Body parser, reading data from body into req.body
-app.use(express.json({ limit: '10kb' }));
-app.use(express.urlencoded({ extended: true, limit: '10kb' }));
-app.use(cookieParser());
 
 
 module.exports = app;

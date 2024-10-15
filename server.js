@@ -1,10 +1,13 @@
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const http = require('http');
+const https = require('https');
+const fs = require('fs');
 
 
 dotenv.config({ path: './config.env' });
 const app = require('./app');
-const PORT = process.env.PORT;
+const PORT = 3000;
 
 process.on('uncaughtException', err => {
     console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
@@ -12,8 +15,11 @@ process.on('uncaughtException', err => {
     process.exit(1);
   });
 
-  // CONNECTING TO THE MONGO DB:
-DB = process.env.DB_CONNECT_STRING.replace('<password>', process.env.DB_PASS);
+// CONNECTING TO THE MONGO DB:
+const dbUser = process.env.DB_USER
+const dbPass = process.env.DB_PASS
+const clusterUrl = process.env.CLUSTER_URL
+DB = `mongodb+srv://${dbUser}:${dbPass}@${clusterUrl}/responsive-cv?retryWrites=true&w=majority`
 
 mongoose.connect(DB).then(() => {
   console.log("Connected to the database");
@@ -22,6 +28,14 @@ mongoose.connect(DB).then(() => {
 const server = app.listen(PORT, () => {
     console.log(`Server now listening on port: ${PORT}`);
 });
+
+// const options = {
+//   key: fs.readFileSync('./ssl/ssl-key.pem'),
+//   cert: fs.readFileSync('./ssl/ssl-cert.pem')
+// };
+// https.createServer(options, app).listen(443, () => {
+//   console.log("Server now listening on port 443")
+// });
 
 process.on('unhandledRejection', err => {
     console.log('UNHANDLED REJECTION! 💥 Shutting down...');

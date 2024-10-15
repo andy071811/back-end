@@ -16,6 +16,17 @@ services:
       - dev
       - prod
 
+  # nginx:
+  #   image: reverse-proxy
+  #   restart: always
+  #   build:
+  #     context: ./nginx
+  #     dockerfile: Dockerfile
+  #   env_file:
+  #     - config.env
+  #   ports:
+  #     - 9999:9999
+
   prod:
     image: react/cv:latest
     restart: unless-stopped
@@ -28,9 +39,6 @@ services:
       backend:
         aliases:
           - app
-      # frontend:
-      #   aliases:
-      #     - app
     env_file:
       - config.env
     depends_on:
