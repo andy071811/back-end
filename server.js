@@ -29,14 +29,6 @@ const server = app.listen(PORT, () => {
     console.log(`Server now listening on port: ${PORT}`);
 });
 
-// const options = {
-//   key: fs.readFileSync('./ssl/ssl-key.pem'),
-//   cert: fs.readFileSync('./ssl/ssl-cert.pem')
-// };
-// https.createServer(options, app).listen(443, () => {
-//   console.log("Server now listening on port 443")
-// });
-
 process.on('unhandledRejection', err => {
     console.log('UNHANDLED REJECTION! 💥 Shutting down...');
     console.log(err.name, err.message);

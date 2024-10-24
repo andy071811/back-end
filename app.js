@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -14,17 +13,10 @@ const workExperienceRouter = require('./routes/workExperienceRoutes');
 
 dotenv.config({ path: './config.env' });
 
-const corsOptions = {
-    origin: ['https://localhost:80', 'http://localhost:80', 'https://frontend:80', 'https://andyjohnsoncv.co.uk'],
-    credentials: true
-};
-
 app.use(cors());
-  
-//app.use(bodyParser.json());
 
 // Serving static files
-//app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
@@ -37,13 +29,14 @@ app.use('/api/qualifications', qualificationRouter);
 app.use('/api/workExperience', workExperienceRouter);
 
 
-
- const transporter = nodemailer.createTransport({
-    service: process.env.MAIL_SERVICE,
+const transporter = nodemailer.createTransport({
+    host: process.env.MAIL_SERVICE,
+    //port: process.env.MAIL_PORT,
+    //requireTLS: true,
     auth: {
         user: process.env.MY_EMAIL,
         pass: process.env.MY_EMAIL_PASS
-    }
+    },
 });
 
 app.post('/api/contact', (req, res) => {
@@ -63,6 +56,8 @@ app.post('/api/contact', (req, res) => {
         res.status(200).send(`Email sent: ${info.response}`);
     });
 });
+
+
 
 
 module.exports = app;
